@@ -1,0 +1,12 @@
+{
+  "chapel": {
+    "mlm": {
+      "address": "0x06826Cf3F983315927eecE17829ec244c631ad03",
+      "startBlock": 29649013
+    },
+    "trader": {
+      "address": "0x588fD44bF777Fc44D478F2AbDdC6801314d09191",
+      "startBlock": 29712576
+    }
+  }
+}

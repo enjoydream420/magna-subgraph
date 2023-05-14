@@ -1,0 +1,87 @@
+type ChangeSubscription @entity(immutable: true) {
+  id: Bytes!
+  index_: BigInt! # uint256
+  subscription__openLimit: BigInt! # uint256
+  subscription__depositMax: BigInt! # uint256
+  subscription__livePeriod: BigInt! # uint256
+  subscription__price: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Subscribe @entity(immutable: true) {
+  id: Bytes!
+  user_: Bytes! # address
+  registeredAt_: BigInt! # uint256
+  subscriptionLevel_: BigInt! # uint256
+  referral_: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Buy @entity(immutable: true) {
+  id: Bytes!
+  sender_: Bytes! # address
+  usdAmountIn_: BigInt! # uint256
+  magnaAmountOut_: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Sell @entity(immutable: true) {
+  id: Bytes!
+  sender_: Bytes! # address
+  magnaAmountIn_: BigInt! # uint256
+  usdAmountOut_: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Reward @entity(immutable: true) {
+  id: Bytes!
+  from_: Bytes! # address
+  to_: Bytes! # address
+  amount_: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type WithdrawRewards @entity(immutable: true) {
+  id: Bytes!
+  feeTo_: Bytes! # address
+  amount_: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UserInfo @entity {
+  id: Bytes!
+  address: Bytes!
+  subscribe: Subscribe!
+  magnaBalance: BigInt!
+  usdDeposit: BigInt!
+  totalUsdDeposit: BigInt!
+  totalProfit: BigInt!
+  profit: BigInt!
+  downlineProfits: [BigInt!]!
+  downline1: [UserInfo!]!
+  downline2: [UserInfo!]!
+  downline3: [UserInfo!]!
+  downline4: [UserInfo!]!
+  downline5: [UserInfo!]!
+}

@@ -1,0 +1,64 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: MLM
+    network: chapel
+    source:
+      address: "0x06826Cf3F983315927eecE17829ec244c631ad03"
+      abi: MLM
+      startBlock: 29649013
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ChangeSubscription
+        - OwnershipTransferred
+        - Subscribe
+      abis:
+        - name: MLM
+          file: ./abis/MLM.json
+      eventHandlers:
+        - event: ChangeSubscription(uint256,(uint256,uint256,uint256,uint256))
+          handler: handleChangeSubscription
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Subscribe(address,uint256,uint256,address)
+          handler: handleSubscribe
+      file: ./src/mlm.ts
+  - kind: ethereum
+    name: Trader
+    network: chapel
+    source:
+      address: "0x8F5a4C10d5Fe8C7573658C9b9685391803D2dB9F"
+      abi: Trader
+      startBlock: 29738841
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Buy
+        - Sell
+        - Reward
+        - WithdrawRewards
+      abis:
+        - name: Trader
+          file: ./abis/Trader.json
+        - name: Liquidity
+          file: ./abis/Liquidity.json
+        - name: MLM
+          file: ./abis/MLM.json
+      eventHandlers:
+        - event: Buy(address,uint256,uint256)
+          handler: handleBuy
+        - event: Sell(address,uint256,uint256)
+          handler: handleSell
+        - event: Reward(address,address,uint256)
+          handler: handleReward
+        - event: WithdrawRewards(address,uint256)
+          handler: handleWithdrawRewards
+      file: ./src/trader.ts
+
