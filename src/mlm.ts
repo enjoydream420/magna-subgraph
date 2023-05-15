@@ -223,35 +223,47 @@ export function handleSubscribe(event: SubscribeEvent): void {
   let referral = event.params.referral_
   let referralInfo = UserInfo.load(referral)
   if (referralInfo != null) {
-    let user = entity.id
-    referralInfo.downline1.push(user)
+    let user = entity.user_
+    referralInfo.downline1 = referralInfo.downline1.concat([user])
     referralInfo.downline2 = referralInfo.downline2.concat(userInfo.downline1)
-    referralInfo.downline3 = referralInfo.downline2.concat(userInfo.downline2)
-    referralInfo.downline4 = referralInfo.downline2.concat(userInfo.downline3)
-    referralInfo.downline5 = referralInfo.downline2.concat(userInfo.downline4)
+    referralInfo.downline3 = referralInfo.downline3.concat(userInfo.downline2)
+    referralInfo.downline4 = referralInfo.downline4.concat(userInfo.downline3)
+    referralInfo.downline5 = referralInfo.downline5.concat(userInfo.downline4)
     referralInfo.save()
-    referralInfo = UserInfo.load(referralInfo.subscribe)
-    if (referralInfo != null) {
-      referralInfo.downline2.push(user)
-      referralInfo.downline3 = referralInfo.downline2.concat(userInfo.downline1)
-      referralInfo.downline4 = referralInfo.downline2.concat(userInfo.downline2)
-      referralInfo.downline5 = referralInfo.downline2.concat(userInfo.downline3)
-      referralInfo.save()
-      referralInfo = UserInfo.load(referralInfo.subscribe)
+    let referralSubscribe = Subscribe.load(referralInfo.subscribe)
+    if (referralSubscribe != null) {
+      referralInfo = UserInfo.load(referralSubscribe.referral_)
       if (referralInfo != null) {
-        referralInfo.downline3.push(user)
-        referralInfo.downline4 = referralInfo.downline2.concat(userInfo.downline1)
-        referralInfo.downline5 = referralInfo.downline2.concat(userInfo.downline2)
+        referralInfo.downline2 = referralInfo.downline2.concat([user])
+        referralInfo.downline3 = referralInfo.downline3.concat(userInfo.downline1)
+        referralInfo.downline4 = referralInfo.downline4.concat(userInfo.downline2)
+        referralInfo.downline5 = referralInfo.downline5.concat(userInfo.downline3)
         referralInfo.save()
-        referralInfo = UserInfo.load(referralInfo.subscribe)
-        if (referralInfo != null) {
-          referralInfo.downline4.push(user)
-          referralInfo.downline5 = referralInfo.downline2.concat(userInfo.downline1)
-          referralInfo.save()
+        referralSubscribe = Subscribe.load(referralInfo.subscribe)
+        if (referralSubscribe != null) {
           referralInfo = UserInfo.load(referralInfo.subscribe)
           if (referralInfo != null) {
-            referralInfo.downline5.push(user)
+            referralInfo.downline3 = referralInfo.downline3.concat([user])
+            referralInfo.downline4 = referralInfo.downline4.concat(userInfo.downline1)
+            referralInfo.downline5 = referralInfo.downline5.concat(userInfo.downline2)
             referralInfo.save()
+            referralSubscribe = Subscribe.load(referralInfo.subscribe)
+            if (referralSubscribe != null) {
+              referralInfo = UserInfo.load(referralInfo.subscribe)
+              if (referralInfo != null) {
+                referralInfo.downline4 = referralInfo.downline4.concat([user])
+                referralInfo.downline5 = referralInfo.downline5.concat(userInfo.downline1)
+                referralInfo.save()
+                referralSubscribe = Subscribe.load(referralInfo.subscribe)
+                if (referralSubscribe != null) {
+                  referralInfo = UserInfo.load(referralInfo.subscribe)
+                  if (referralInfo != null) {
+                    referralInfo.downline5.push(user)
+                    referralInfo.save()
+                  }
+                }
+              }
+            }
           }
         }
       }
